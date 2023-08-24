@@ -11,16 +11,33 @@ datasource db {
 }
 
 model Media {
-  id       Int    @id @default(autoincrement())
-  username String
-  title    String
+  id          Int           @id @default(autoincrement())
+  username    String
+  title       String
+  Publication Publication[]
 
   @@map("medias")
 }
 
 model Post {
-  id    Int     @id @default(autoincrement())
-  title String
-  text  String
-  image String?
+  id          Int           @id @default(autoincrement())
+  title       String
+  text        String
+  image       String?
+  Publication Publication[]
+
+  @@map("posts")
+}
+
+model Publication {
+  id        Int       @id @default(autoincrement())
+  mediaId   Int
+  Media     Media     @relation(fields: [mediaId], references: [id])
+  postId    Int
+  Post      Post      @relation(fields: [postId], references: [id])
+  date      DateTime
+  published Boolean   @default(false)
+  after     DateTime?
+
+  @@map("publications")
 }

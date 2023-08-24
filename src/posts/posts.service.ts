@@ -18,7 +18,7 @@ export class PostsService {
 
   async findOne(id: number) {
     const postSingle = await this.repository.findOnePost(id)
-    if (postSingle.length === 0) throw new NotFoundException()
+    if (postSingle.length === 0) throw new NotFoundException('Post não encontrado')
     return postSingle
   }
 
