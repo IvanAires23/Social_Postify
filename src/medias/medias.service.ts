@@ -22,7 +22,7 @@ export class MediasService {
 
   async findOne(id: number) {
     const mediaSingle = await this.repository.findOneMedia(id)
-    if (!mediaSingle) throw new NotFoundException('Media não encontrada')
+    if (mediaSingle.length === 0) throw new NotFoundException('Media não encontrada')
     return mediaSingle
   }
 

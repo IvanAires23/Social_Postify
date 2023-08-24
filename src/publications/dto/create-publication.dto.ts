@@ -1,1 +1,2 @@
-export class CreatePublicationDto {}
+
+export class CreatePublicationDto { }

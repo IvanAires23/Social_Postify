@@ -17,7 +17,7 @@ export class MediasRepository {
     }
 
     findOneMedia(id: number) {
-        return this.prisma.media.findFirst({
+        return this.prisma.media.findMany({
             where: {
                 id
             }
