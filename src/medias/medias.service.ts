@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 import { MediasRepository } from './medias.repository';
@@ -7,26 +7,37 @@ import { MediasRepository } from './medias.repository';
 @Injectable()
 export class MediasService {
 
-  constructor(private readonly mediasRepository: MediasRepository) { }
+  constructor(private readonly repository: MediasRepository) { }
 
   async create(body: CreateMediaDto) {
     const { title, username } = body
-    return await this.mediasRepository.createMedia(title, username)
+    const repeat = await this.repository.findRepeatedMedia(title, username)
+    if (repeat) throw new ConflictException('Esta media já existe')
+    return await this.repository.createMedia(body)
   }
 
   async findAll() {
-    return await this.mediasRepository.findAllMedias();
+    return await this.repository.findAllMedias();
   }
 
   async findOne(id: number) {
-    return await this.mediasRepository.findOneMedia(id)
+    const mediaSingle = await this.repository.findOneMedia(id)
+    if (!mediaSingle) throw new NotFoundException('Media não encontrada')
+    return mediaSingle
   }
 
-  update(id: number, updateMediaDto: UpdateMediaDto) {
-    return `This action updates a #${id} media`;
+  async update(id: number, updateMediaDto: UpdateMediaDto) {
+    const { title, username } = updateMediaDto
+    const repeat = await this.repository.findRepeatedMedia(title, username)
+    const update = await this.repository.findOneMedia(id)
+    if (repeat) throw new ConflictException()
+    if (!update) throw new NotFoundException()
+    return await this.repository.updateMedia(id, updateMediaDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} media`;
+  async remove(id: number) {
+    const exist = await this.repository.findOneMedia(id)
+    if (!exist) throw new NotFoundException()
+    return await this.repository.deleteMedia(id)
   }
 }
