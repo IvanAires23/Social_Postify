@@ -3,23 +3,13 @@ import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 
-@Controller('medias')
+@Controller()
 export class MediasController {
   constructor(private readonly mediasService: MediasService) { }
 
-  @Post()
-  create(@Body() createMediaDto: CreateMediaDto) {
-    return this.mediasService.create(createMediaDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.mediasService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mediasService.findOne(+id);
+  @Post('/medias')
+  async create(@Body() createMediaDto: CreateMediaDto) {
+    return await this.mediasService.create(createMediaDto);
   }
 
   @Patch(':id')
