@@ -16,6 +16,20 @@ export class PublicationsRepository {
         return this.prisma.publication.findMany()
     }
 
+    findPublicationForTrue(time: Date) {
+        return this.prisma.publication.findMany({
+            where: { date: { lt: time } }
+        })
+    }
+
+    findPublicationAfterTime(time: Date) {
+        return this.prisma.publication.findMany({
+            where: {
+                date: { gt: time }
+            }
+        })
+    }
+
     findOnePublication(id: number) {
         return this.prisma.publication.findMany({ where: { id } })
     }

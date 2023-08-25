@@ -20,6 +20,14 @@ export class PostsRepository {
         return this.prisma.post.findMany({ where: { id } })
     }
 
+    findPublicationForPost(id: number) {
+        return this.prisma.publication.findFirst({
+            where: {
+                postId: id
+            }
+        })
+    }
+
     updatePost(id: number, updatePostDto: UpdatePostDto) {
         return this.prisma.post.update({
             where: { id },

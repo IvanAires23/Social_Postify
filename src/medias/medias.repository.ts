@@ -28,6 +28,14 @@ export class MediasRepository {
         return this.prisma.media.findMany()
     }
 
+    findPublicationForMedia(id: number) {
+        return this.prisma.publication.findMany({
+            where: {
+                mediaId: id
+            }
+        })
+    }
+
     updateMedia(id: number, data: UpdateMediaDto) {
         return this.prisma.media.update({
             where: { id },

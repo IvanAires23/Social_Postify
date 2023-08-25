@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsRepository } from './posts.repository';
@@ -31,6 +31,8 @@ export class PostsService {
   async remove(id: number) {
     const post = await this.findOne(id)
     if (post.length === 0) throw new NotFoundException()
+    const publication = await this.repository.findPublicationForPost(id)
+    if (publication) throw new ForbiddenException()
     return await this.repository.deletePost(id)
   }
 }

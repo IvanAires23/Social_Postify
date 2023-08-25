@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationsRepository } from './publication.repository';
@@ -20,7 +20,16 @@ export class PublicationsService {
     return await this.repository.createPublication(createPublicationDto);
   }
 
-  async findAll() {
+  async findAll(published?: string, after?: Date) {
+    if (published && after) {
+
+    } else if (published) {
+      const time = new Date()
+      return await this.repository.findPublicationForTrue(time)
+    } else if (after) {
+      const time = new Date(after)
+      return this.repository.findPublicationAfterTime(time)
+    }
     return await this.repository.findPublication();
   }
 
@@ -35,6 +44,8 @@ export class PublicationsService {
     await this.postsSevice.findOne(updatePublicationDto.postId)
     const publicationExist = await this.repository.findOnePublication(id)
     if (publicationExist.length === 0) throw new NotFoundException()
+    const today = new Date()
+    if (publicationExist[0].date < today) throw new ForbiddenException()
     return await this.repository.updatePublication(id, updatePublicationDto);
   }
 
