@@ -33,8 +33,7 @@ export class MediasService {
 
   async update(id: number, updateMediaDto: UpdateMediaDto) {
     const { title, username } = updateMediaDto
-    const update = await this.repository.findOneMedia(id)
-    if (!update) throw new MediaNotFound(id)
+    await this.findOne(id)
     const repeat = await this.repository.findRepeatedMedia(title, username)
     if (repeat) throw new MediaConflict(title, username)
     return await this.repository.updateMedia(id, updateMediaDto)
