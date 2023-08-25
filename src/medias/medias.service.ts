@@ -1,7 +1,10 @@
-import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 import { MediasRepository } from './medias.repository';
+import { MediaNotFound } from './errors/MediaNotFound';
+import { MediaConflict } from './errors/MediaConflict';
+import { MediaForbidden } from './errors/MediaForBidden';
 
 
 @Injectable()
@@ -14,7 +17,7 @@ export class MediasService {
   async create(body: CreateMediaDto) {
     const { title, username } = body
     const repeat = await this.repository.findRepeatedMedia(title, username)
-    if (repeat) throw new ConflictException('Esta media já existe')
+    if (repeat) throw new MediaConflict(title, username)
     return await this.repository.createMedia(body)
   }
 
@@ -24,24 +27,24 @@ export class MediasService {
 
   async findOne(id: number) {
     const mediaSingle = await this.repository.findOneMedia(id)
-    if (mediaSingle.length === 0) throw new NotFoundException('Media não encontrada')
+    if (mediaSingle.length === 0) throw new MediaNotFound(id)
     return mediaSingle
   }
 
   async update(id: number, updateMediaDto: UpdateMediaDto) {
     const { title, username } = updateMediaDto
-    const repeat = await this.repository.findRepeatedMedia(title, username)
     const update = await this.repository.findOneMedia(id)
-    if (repeat) throw new ConflictException()
-    if (!update) throw new NotFoundException()
+    if (!update) throw new MediaNotFound(id)
+    const repeat = await this.repository.findRepeatedMedia(title, username)
+    if (repeat) throw new MediaConflict(title, username)
     return await this.repository.updateMedia(id, updateMediaDto)
   }
 
   async remove(id: number) {
     const exist = await this.repository.findOneMedia(id)
-    if (exist.length === 0) throw new NotFoundException()
+    if (exist.length === 0) throw new MediaNotFound(id)
     const publication = await this.repository.findPublicationForMedia(id)
-    if (publication.length >= 1) throw new ForbiddenException()
+    if (publication.length >= 1) throw new MediaForbidden(id)
     return await this.repository.deleteMedia(id)
   }
 }

@@ -16,7 +16,7 @@ export class PublicationsRepository {
         return this.prisma.publication.findMany()
     }
 
-    findPublicationForTrue(time: Date) {
+    findPublicationForPublished(time: Date) {
         return this.prisma.publication.findMany({
             where: { date: { lt: time } }
         })
@@ -26,6 +26,17 @@ export class PublicationsRepository {
         return this.prisma.publication.findMany({
             where: {
                 date: { gt: time }
+            }
+        })
+    }
+
+    findPublicationAfterTimeAndPublished(timeNow: Date, timeAfter: Date) {
+        return this.prisma.publication.findMany({
+            where: {
+                date: {
+                    lt: timeNow,
+                    gte: timeAfter
+                }
             }
         })
     }

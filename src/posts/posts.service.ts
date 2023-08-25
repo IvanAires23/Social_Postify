@@ -1,7 +1,9 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsRepository } from './posts.repository';
+import { PostNotFound } from './errors/PostNotFound';
+import { PostForbidden } from './errors/PostForbidden';
 
 @Injectable()
 export class PostsService {
@@ -18,21 +20,21 @@ export class PostsService {
 
   async findOne(id: number) {
     const postSingle = await this.repository.findOnePost(id)
-    if (postSingle.length === 0) throw new NotFoundException('Post não encontrado')
+    if (postSingle.length === 0) throw new PostNotFound(id)
     return postSingle
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
     const post = await this.findOne(id)
-    if (post.length === 0) throw new NotFoundException()
+    if (post.length === 0) throw new PostNotFound(id)
     return await this.repository.updatePost(id, updatePostDto)
   }
 
   async remove(id: number) {
     const post = await this.findOne(id)
-    if (post.length === 0) throw new NotFoundException()
+    if (post.length === 0) throw new PostNotFound(id)
     const publication = await this.repository.findPublicationForPost(id)
-    if (publication) throw new ForbiddenException()
+    if (publication) throw new PostForbidden(id)
     return await this.repository.deletePost(id)
   }
 }
