@@ -5,9 +5,9 @@ import { AppModule } from './../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { cleanDb } from './healpers';
 import { CreateMedia } from './factories/createMedia';
-import { createPost } from './factories/createPosts';
 import { faker } from '@faker-js/faker';
-import { createPublication } from './factories/createPublication';
+import { CreatePost } from './factories/createPosts';
+import { CreatePublication } from './factories/createPublication';
 
 let app: INestApplication;
 let prisma: PrismaService
@@ -190,7 +190,7 @@ describe('Media: error cases', () => {
   })
 
   it('media cannot be deleted', async () => {
-    const pubucation = await createPublication(prisma)
+    const pubucation = await new CreatePublication(prisma).create()
     const response = await request(app.getHttpServer()).delete(`/medias/${pubucation.mediaId}`)
     expect(response.status).toBe(HttpStatus.FORBIDDEN)
   })
@@ -208,9 +208,9 @@ describe('PostController (e2e)', () => {
   });
 
   it('should return 200 with all posts', async () => {
-    await createPost(prisma)
-    await createPost(prisma)
-    await createPost(prisma)
+    await new CreatePost(prisma).create()
+    await new CreatePost(prisma).create()
+    await new CreatePost(prisma).create()
 
     const response = await request(app.getHttpServer()).get('/posts')
     expect(response.status).toBe(HttpStatus.OK)
@@ -223,7 +223,7 @@ describe('PostController (e2e)', () => {
   });
 
   it('should return 200 to find post by id', async () => {
-    const post = await createPost(prisma)
+    const post = await new CreatePost(prisma).create()
     const response = await request(app.getHttpServer()).get(`/posts/${post.id}`)
     expect(response.status).toBe(HttpStatus.OK)
     expect(response.body).toEqual(expect.arrayContaining([
@@ -235,7 +235,7 @@ describe('PostController (e2e)', () => {
   });
 
   it('should return 200 to update post by id', async () => {
-    const post = await createPost(prisma)
+    const post = await new CreatePost(prisma).create()
     await request(app.getHttpServer()).put(`/posts/${post.id}`)
       .send({
         title: faker.word.words(5),
@@ -245,7 +245,7 @@ describe('PostController (e2e)', () => {
   });
 
   it('should return 200 to delete post by id', async () => {
-    const post = await createPost(prisma)
+    const post = await new CreatePost(prisma).create()
     await request(app.getHttpServer()).delete(`/posts/${post.id}`)
       .expect(HttpStatus.OK)
   })
@@ -275,13 +275,13 @@ describe('Posts: cases errors', () => {
   })
 
   it('get: record id not found', async () => {
-    await createPost(prisma)
+    await new CreatePost(prisma).create()
     const response = await request(app.getHttpServer()).get(`/posts/1`)
     expect(response.status).toBe(HttpStatus.NOT_FOUND)
   })
 
   it('put: record id not found', async () => {
-    await createPost(prisma)
+    await new CreatePost(prisma).create()
     const response = await request(app.getHttpServer()).put(`/posts/1`)
       .send({
         title: faker.commerce.department(),
@@ -291,13 +291,13 @@ describe('Posts: cases errors', () => {
   })
 
   it('delete: record id not found', async () => {
-    await createPost(prisma)
+    await new CreatePost(prisma).create()
     const response = await request(app.getHttpServer()).delete(`/posts/1`)
     expect(response.status).toBe(HttpStatus.NOT_FOUND)
   })
 
   it('post cannot be deleted', async () => {
-    const pubucation = await createPublication(prisma)
+    const pubucation = await new CreatePublication(prisma).create()
     const response = await request(app.getHttpServer()).delete(`/posts/${pubucation.postId}`)
     expect(response.status).toBe(HttpStatus.FORBIDDEN)
   })
@@ -306,7 +306,7 @@ describe('Posts: cases errors', () => {
 describe('publicationController (e2e)', () => {
   it('should return 201 to create new publication', async () => {
     const media = await new CreateMedia(prisma).create()
-    const post = await createPost(prisma)
+    const post = await new CreatePost(prisma).create()
     await request(app.getHttpServer())
       .post('/publications')
       .send({
@@ -318,9 +318,9 @@ describe('publicationController (e2e)', () => {
   });
 
   it('should return 200 with all publications', async () => {
-    await createPublication(prisma)
-    await createPublication(prisma)
-    await createPublication(prisma)
+    await new CreatePublication(prisma).create()
+    await new CreatePublication(prisma).create()
+    await new CreatePublication(prisma).create()
 
     const response = await request(app.getHttpServer()).get('/publications')
     expect(response.status).toBe(HttpStatus.OK)
@@ -334,7 +334,7 @@ describe('publicationController (e2e)', () => {
   });
 
   it('should return 200 to find publication by id', async () => {
-    const publication = await createPublication(prisma)
+    const publication = await new CreatePublication(prisma).create()
     const response = await request(app.getHttpServer()).get(`/publications/${publication.id}`)
     expect(response.status).toBe(HttpStatus.OK)
     expect(response.body).toEqual(expect.arrayContaining([
@@ -347,7 +347,7 @@ describe('publicationController (e2e)', () => {
   });
 
   it('should return 200 to update publication by id', async () => {
-    const publication = await createPublication(prisma)
+    const publication = await new CreatePublication(prisma).create()
     await request(app.getHttpServer()).put(`/publications/${publication.id}`)
       .send({
         mediaId: publication.mediaId,
@@ -358,7 +358,7 @@ describe('publicationController (e2e)', () => {
   });
 
   it('should return 200 to delete publication by id', async () => {
-    const publication = await createPublication(prisma)
+    const publication = await new CreatePublication(prisma).create()
     await request(app.getHttpServer()).delete(`/publications/${publication.id}`)
       .expect(HttpStatus.OK)
   })
@@ -405,13 +405,13 @@ describe('Publications: cases errors', () => {
   })
 
   it('get: record id not found', async () => {
-    await createPublication(prisma)
+    await new CreatePublication(prisma).create()
     const response = await request(app.getHttpServer()).get(`/publications/1`)
     expect(response.status).toBe(HttpStatus.NOT_FOUND)
   })
 
   it('put: record id not found', async () => {
-    const publication = await createPublication(prisma)
+    const publication = await new CreatePublication(prisma).create()
     const response = await request(app.getHttpServer()).put(`/publications/1`)
       .send({
         mediaId: 1,
@@ -432,8 +432,8 @@ describe('Publications: cases errors', () => {
 
   it('put: id already published', async () => {
     const media = await new CreateMedia(prisma).create()
-    const post = await createPost(prisma)
-    const publication = await createPublication(prisma, faker.date.past())
+    const post = await new CreatePost(prisma).create()
+    const publication = await new CreatePublication(prisma).create(faker.date.past())
     const response = await request(app.getHttpServer()).put(`/publications/${publication.id}`)
       .send({
         mediaId: media.id,
@@ -444,7 +444,7 @@ describe('Publications: cases errors', () => {
   })
 
   it('delete: record id not found', async () => {
-    await createPublication(prisma)
+    await new CreatePublication(prisma).create()
     const response = await request(app.getHttpServer()).delete(`/publications/1`)
     expect(response.status).toBe(HttpStatus.NOT_FOUND)
   })
