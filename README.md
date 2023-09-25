@@ -30,7 +30,7 @@ The following tools and frameworks were used in the construction of the project:
 ## How to run
 
 1. This project was developed in Vite, therefore it requires Node.js version 14.18+, 16+. However, some templates require a higher version of Node.js to work
-   *If necessary, install Node.js from this link
+   *If necessary, install Node.js from this link: https://nodejs.org/en
 2. Clone this repository: https://github.com/IvanAires23/Social_Postify.git
 3. Install dependencies
 ```bash
