@@ -27,7 +27,7 @@ export class MediasService {
 
   async findOne(id: number) {
     const mediaSingle = await this.repository.findOneMedia(id)
-    if (mediaSingle.length === 0) throw new MediaNotFound(id)
+    if (!mediaSingle) throw new MediaNotFound(id)
     return mediaSingle
   }
 
@@ -40,10 +40,10 @@ export class MediasService {
   }
 
   async remove(id: number) {
-    const exist = await this.repository.findOneMedia(id)
-    if (exist.length === 0) throw new MediaNotFound(id)
+    const media = await this.repository.findOneMedia(id)
+    if (!media) throw new MediaNotFound(id)
     const publication = await this.repository.findPublicationForMedia(id)
-    if (publication.length >= 1) throw new MediaForbidden(id)
+    if (publication.Publication.length >= 1) throw new MediaForbidden(id)
     return await this.repository.deleteMedia(id)
   }
 }

@@ -31,10 +31,11 @@ export class PostsService {
   }
 
   async remove(id: number) {
+
     const post = await this.findOne(id)
     if (post.length === 0) throw new PostNotFound(id)
     const publication = await this.repository.findPublicationForPost(id)
-    if (publication) throw new PostForbidden(id)
+    if (publication.Publication.length > 0) throw new PostForbidden(id)
     return await this.repository.deletePost(id)
   }
 }

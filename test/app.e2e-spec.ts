@@ -89,12 +89,11 @@ describe('MediaController (e2e)', () => {
     const media = await new CreateMedia(prisma).create()
     const response = await request(app.getHttpServer()).get(`/medias/${media.id}`)
     expect(response.status).toBe(HttpStatus.OK)
-    expect(response.body).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        id: media.id,
-        title: media.title,
-        username: media.username
-      })]))
+    expect(response.body).toEqual(expect.objectContaining({
+      id: media.id,
+      title: media.title,
+      username: media.username
+    }))
   });
 
   it('should return 200 to update media by id', async () => {
@@ -368,9 +367,7 @@ describe('Publications: cases errors', () => {
   it('no mandatory fields', async () => {
     await request(app.getHttpServer())
       .post('/publications')
-      .send({
-        mediaId: faker.number.int()
-      })
+
       .expect(HttpStatus.BAD_REQUEST)
 
     await request(app.getHttpServer())

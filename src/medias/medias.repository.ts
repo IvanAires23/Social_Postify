@@ -13,11 +13,17 @@ export class MediasRepository {
     }
 
     findRepeatedMedia(title: string, username: string) {
-        return this.prisma.media.findFirst({ where: { title, username } })
+        return this.prisma.media.findUnique({
+            where: {
+                username_title: {
+                    title, username
+                }
+            }
+        })
     }
 
     findOneMedia(id: number) {
-        return this.prisma.media.findMany({
+        return this.prisma.media.findFirst({
             where: {
                 id
             }
@@ -29,9 +35,11 @@ export class MediasRepository {
     }
 
     findPublicationForMedia(id: number) {
-        return this.prisma.publication.findMany({
+        return this.prisma.media.findFirst({
             where: {
-                mediaId: id
+                id
+            }, include: {
+                Publication: true
             }
         })
     }

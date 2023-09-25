@@ -21,9 +21,11 @@ export class PostsRepository {
     }
 
     findPublicationForPost(id: number) {
-        return this.prisma.publication.findFirst({
+        return this.prisma.post.findFirst({
             where: {
-                postId: id
+                id
+            }, include: {
+                Publication: true
             }
         })
     }
