@@ -54,8 +54,6 @@ export class PublicationsService {
   }
 
   async remove(id: number) {
-    await this.mediasSevice.findOne(createPublicationDto.mediaId)
-    await this.postsSevice.findOne(createPublicationDto.postId)
     const publicationExist = await this.repository.findOnePublication(id)
     if (publicationExist.length === 0) throw new PublicationNotFound(id)
     return await this.repository.deletePublication(id);
