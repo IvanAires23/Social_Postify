@@ -16,7 +16,8 @@ To reinforce the presence of companies on social media, it is necessary to have 
 Future features that will be implemented:
   - email sending
   - unitary tests
-  - 
+  - Documentation
+    
 ## Technologies
 The following tools and frameworks were used in the construction of the project:<br>
 <p>
