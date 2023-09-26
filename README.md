@@ -37,15 +37,21 @@ The following tools and frameworks were used in the construction of the project:
 ```bash
 npm i
 ```
-4. Run with
+4. In a .env file, define your database environment variable
+ ```bash
+DATABASE_URL= /*Your PostgreSQL database*/
+```
+If you don't already have a PostgreSQL database, create one using this link: https://www.elephantsql.com/ <br/>
+
+5. Run with
 ```bash
 npm run start
 ```
-5. You can optionally build the project running
+6. You can optionally build the project running
 ```bash
 npm run build
 ```
-6. In your browser, run the application at:
+7. In your browser, run the application at:
 ```bash
 http://localhost:3000/health
 ```
