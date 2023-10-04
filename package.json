@@ -20,7 +20,7 @@
     "test:cov": "npm run test:load-envs -- jest -- --coverage --runInBand --config ./jest-e2e.json",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:load-envs": "dotenv -e .env.test",
-    "test:prisma": "npm run test:load-envs prisma migrate deploy",
+    "test:migration:run": "npm run test:load-envs prisma migrate deploy",
     "test:e2e": "npm run test:load-envs -- jest --detectOpenHandles -- --runInBand --config ./jest-e2e.json"
   },
   "dependencies": {
