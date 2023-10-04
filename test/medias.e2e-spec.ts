@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "../src/app.module";
 import { HttpStatus, INestApplication, ValidationPipe } from "@nestjs/common";
 import { PrismaService } from "../src/prisma/prisma.service";
-import { cleanDb } from "./healpers";
+import { cleanDb } from "./helpers/clear";
 import * as request from 'supertest';
 import { CreateMedia } from "./factories/createMedia";
 import { faker } from "@faker-js/faker";
