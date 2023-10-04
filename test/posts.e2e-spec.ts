@@ -4,7 +4,6 @@ import { HttpStatus, INestApplication, ValidationPipe } from "@nestjs/common";
 import { PrismaService } from "../src/prisma/prisma.service";
 import { cleanDb } from "./helpers/clear";
 import * as request from 'supertest';
-import { CreateMedia } from "./factories/createMedia";
 import { faker } from "@faker-js/faker";
 import { CreatePublication } from "./factories/createPublication";
 import { CreatePost } from "./factories/createPosts";

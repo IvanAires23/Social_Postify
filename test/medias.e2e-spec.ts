@@ -28,11 +28,13 @@ beforeEach(async () => {
 
 describe('MediaController (e2e)', () => {
     it('should return 201 to create new media', async () => {
+        const title = faker.lorem.word()
+        const username = faker.person.firstName()
         await request(app.getHttpServer())
             .post('/medias')
             .send({
-                title: 'Test',
-                username: 'Test'
+                title,
+                username
             })
             .expect(HttpStatus.CREATED)
 
@@ -41,8 +43,8 @@ describe('MediaController (e2e)', () => {
         const media = medias[0]
         expect(media).toEqual({
             id: expect.any(Number),
-            title: 'Test',
-            username: 'Test'
+            title,
+            username
         })
     });
 
@@ -90,39 +92,37 @@ describe('MediaController (e2e)', () => {
 })
 
 describe('Media: error cases', () => {
-    it('no mandatory fields', async () => {
+    it('post: no mandatory fields', async () => {
         await request(app.getHttpServer())
             .post('/medias')
             .send({
-                title: 'Test'
+                title: faker.lorem.word()
             })
             .expect(HttpStatus.BAD_REQUEST)
 
         await request(app.getHttpServer())
             .post('/medias')
             .send({
-                username: 'Test'
+                username: faker.person.firstName()
             })
             .expect(HttpStatus.BAD_REQUEST)
     });
 
-    it('post: registration with the same combination', async () => {
-        const title = 'Test'
-        const username = 'Test'
-        new CreateMedia(prisma).title = title
-        new CreateMedia(prisma).username = username
-        await new CreateMedia(prisma).create()
+    it('post: when the title is already associated with the user', async () => {
+        const title = faker.lorem.word()
+        const username = faker.person.firstName()
+        await new CreateMedia(prisma, title, username).create()
 
-        await request(app.getHttpServer())
+        const response = await request(app.getHttpServer())
             .post('/medias')
             .send({
-                title: 'Test',
-                username: 'Test'
+                title,
+                username
             })
-        expect(HttpStatus.CONFLICT)
+        expect(response.status).toBe(HttpStatus.CONFLICT)
     })
 
-    it('return an empty array', async () => {
+    it('get: return an empty array', async () => {
         const response = await request(app.getHttpServer()).get('/medias')
         expect(response.status).toBe(HttpStatus.OK)
         expect(response.body).toHaveLength(0)
@@ -144,17 +144,15 @@ describe('Media: error cases', () => {
     })
 
     it('put: registration with the same combination', async () => {
-        const title = 'Test'
-        const username = 'Test'
-        new CreateMedia(prisma).title = title
-        new CreateMedia(prisma).username = username
-        const media = await new CreateMedia(prisma).create()
+        const title = faker.lorem.word()
+        const username = faker.person.firstName()
+        const media = await new CreateMedia(prisma, title, username).create()
 
         await request(app.getHttpServer())
             .put(`/medias/${media.id}`)
             .send({
-                title: 'Test',
-                username: 'Test'
+                title,
+                username
             })
         expect(HttpStatus.CONFLICT)
     })

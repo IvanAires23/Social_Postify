@@ -3,26 +3,20 @@ import { faker } from '@faker-js/faker';
 
 export class CreateMedia {
     private prisma: PrismaService;
-    private _title: string;
-    private _username: string;
+    private title: string;
+    private username: string;
 
-    constructor(prisma: PrismaService) {
+    constructor(prisma: PrismaService, title?: string, username?: string) {
         this.prisma = prisma;
-    }
-
-    set title(title: string) {
-        this._title = title
-    }
-
-    set username(username: string) {
-        this._username = username
+        this.title = title;
+        this.username = username;
     }
 
     async create() {
         return this.prisma.media.create({
             data: {
-                title: this._title ? this._title : faker.company.buzzAdjective(),
-                username: this._username ? this._username : faker.person.firstName()
+                title: this.title ? this.title : faker.lorem.word(),
+                username: this.username ? this.username : faker.person.firstName()
             }
         })
     }
