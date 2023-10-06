@@ -35,23 +35,46 @@ The following tools and frameworks were used in the construction of the project:
 2. Clone this repository: https://github.com/IvanAires23/Social_Postify.git
 3. Install dependencies
 ```bash
-npm i
+npm install
 ```
 4. In a .env file, define your database environment variable
  ```bash
-DATABASE_URL= /*Your PostgreSQL database*/
+DATABASE_URL="postgresql://<USERNAME_POSTGRES>:<PASSWORD_POSTGRES>@localhost:5432/<NAME_DATABASE>?schema=public"
 ```
 If you don't already have a PostgreSQL database, create one using this link: https://www.elephantsql.com/ <br/>
 
-5. Run with
+5. Run migrations
+```bash
+npm run dev:migration:run
+```
+6. Run with
 ```bash
 npm run start
 ```
-6. You can optionally build the project running
+7. You can optionally build the project running
 ```bash
 npm run build
 ```
-7. In your browser, run the application at:
+8. In your browser, run the application at:
 ```bash
 http://localhost:3000/health
 ```
+
+## How to run tests
+
+1. Follow the steps in the last section
+2. Clone this repository
+3. In a .env.test file, define your database environment variable
+ ```bash
+DATABASE_URL="postgresql://<USERNAME_POSTGRES>:<PASSWORD_POSTGRES>@localhost:5432/<NAME_DATABASE>?schema=public"
+```
+If you don't already have a PostgreSQL database, create one using this link: https://www.elephantsql.com/ <br/>
+4. Run all migrations
+  ```bash
+  npm run test:migration:run
+  ```
+5. Run the back-end in a development environment:
+  ```bash
+  npm run test
+  ```
+
