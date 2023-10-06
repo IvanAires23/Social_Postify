@@ -4,7 +4,7 @@
 
 # envs
 .env
-.env*
+.env.test
 
 # Logs
 logs
