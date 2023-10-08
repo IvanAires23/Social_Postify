@@ -37,25 +37,23 @@ The following tools and frameworks were used in the construction of the project:
 ```bash
 npm install
 ```
-4. In a .env file, define your database environment variable
- ```bash
-DATABASE_URL="postgresql://<USERNAME_POSTGRES>:<PASSWORD_POSTGRES>@localhost:5432/<NAME_DATABASE>?schema=public"
-```
-If you don't already have a PostgreSQL database, create one using this link: https://www.elephantsql.com/ <br/>
+4. Create a PostgreSQL database with whatever name you want
+   
+5. Configure the .env.development file using the .env.example file (see "Running application locally or inside docker section" for details)
 
-5. Run migrations
+6. Run migrations
 ```bash
 npm run dev:migration:run
 ```
-6. Run with
+7. Run with
 ```bash
 npm run start
 ```
-7. You can optionally build the project running
+8. You can optionally build the project running
 ```bash
 npm run build
 ```
-8. In your browser, run the application at:
+9. In your browser, run the application at:
 ```bash
 http://localhost:3000/health
 ```
