@@ -32,7 +32,7 @@ The following tools and frameworks were used in the construction of the project:
 
 1. This project was developed in Vite, therefore it requires Node.js version 14.18+, 16+. However, some templates require a higher version of Node.js to work
    *If necessary, install Node.js from this link: https://nodejs.org/en
-2. Clone this repository: https://github.com/IvanAires23/Social_Postify.git
+2. Clone this repository
 3. Install dependencies
 ```bash
 npm install
@@ -75,17 +75,12 @@ npm install
    
 5. Configure the .env.test file using the .env.example file (see "Running application locally or inside docker section" for details)
 
-6. Generate Prisma
-```bash
-npm run prisma:generate
-```
-
-4. Run all migrations
+6. Run all migrations
   ```bash
   npm run test:migration:run
   ```
-5. Run the back-end in a development environment:
+7. Run the back-end in a development environment:
   ```bash
-  npm run test
+  npm run test:e2e
   ```
 
