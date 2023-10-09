@@ -41,19 +41,24 @@ npm install
    
 5. Configure the .env file using the .env.example file (see "Running application locally or inside docker section" for details)
 
-6. Run migrations
+6. Generate migrations
+```bash
+npm run dev:migration:generate
+```
+
+7. Run migrations
 ```bash
 npm run dev:migration:run
 ```
-7. Run with
+8. Run with
 ```bash
 npm run start
 ```
-8. You can optionally build the project running
+9. You can optionally build the project running
 ```bash
 npm run build
 ```
-9. In your browser, run the application at:
+10. In your browser, run the application at:
 ```bash
 http://localhost:3000/health
 ```
