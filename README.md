@@ -41,24 +41,19 @@ npm install
    
 5. Configure the .env file using the .env.example file (see "Running application locally or inside docker section" for details)
 
-6. Generate Prisma
-```bash
-npm run prisma:generate
-```
-
-7. Run migrations
+6. Run migrations
 ```bash
 npm run dev:migration:run
 ```
-8. Run with
+7. Run with
 ```bash
 npm run start
 ```
-9. You can optionally build the project running
+8. You can optionally build the project running
 ```bash
 npm run build
 ```
-10. In your browser, run the application at:
+9. In your browser, run the application at:
 ```bash
 http://localhost:3000/health
 ```
