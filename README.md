@@ -41,19 +41,24 @@ npm install
    
 5. Configure the .env file using the .env.example file (see "Running application locally or inside docker section" for details)
 
-6. Run migrations
+6. Generate Prisma
+```bash
+npm run prisma:generate
+```
+
+7. Run migrations
 ```bash
 npm run dev:migration:run
 ```
-7. Run with
+8. Run with
 ```bash
 npm run start
 ```
-8. You can optionally build the project running
+9. You can optionally build the project running
 ```bash
 npm run build
 ```
-9. In your browser, run the application at:
+10. In your browser, run the application at:
 ```bash
 http://localhost:3000/health
 ```
@@ -62,11 +67,19 @@ http://localhost:3000/health
 
 1. Follow the steps in the last section
 2. Clone this repository
-3. In a .env.test file, define your database environment variable
- ```bash
-DATABASE_URL="postgresql://<USERNAME_POSTGRES>:<PASSWORD_POSTGRES>@localhost:5432/<NAME_DATABASE>?schema=public"
+3. Install dependencies
+```bash
+npm install
 ```
-If you don't already have a PostgreSQL database, create one using this link: https://www.elephantsql.com/ <br/>
+4. Create a PostgreSQL database with whatever name you want
+   
+5. Configure the .env.test file using the .env.example file (see "Running application locally or inside docker section" for details)
+
+6. Generate Prisma
+```bash
+npm run prisma:generate
+```
+
 4. Run all migrations
   ```bash
   npm run test:migration:run
