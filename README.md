@@ -39,7 +39,7 @@ npm install
 ```
 4. Create a PostgreSQL database with whatever name you want
    
-5. Configure the .env.development file using the .env.example file (see "Running application locally or inside docker section" for details)
+5. Configure the .env file using the .env.example file (see "Running application locally or inside docker section" for details)
 
 6. Run migrations
 ```bash
