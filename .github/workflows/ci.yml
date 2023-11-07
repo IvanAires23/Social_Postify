@@ -1,5 +1,8 @@
 name: Tests Validation
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   Push_validation:
     runs-on: ubuntu-latest
