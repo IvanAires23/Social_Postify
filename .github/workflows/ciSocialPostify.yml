@@ -1,0 +1,23 @@
+name: Pull Request on GitHub
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Push_validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Make new a .env file
+        uses: SpicyPizza/create-envfile@v2.0.2
+        with:
+          envkey_PORT: 3000
+          envkey_POSTGRES_PASSWORD: 'postgres'
+          envkey_POSTGRES_USER: 'postgres'
+          envkey_POSTGRES_DB: 'cicd_tests'
+          envkey_DATABASE_URL: 'postgres://postgres:postgres@postgres:5432/cicd_Tests'
+          directory: .
+          file_name: .env.test
+      - name: Run testes
+        run: docker-compose -f docker-compose-test.yml run node npm run test
