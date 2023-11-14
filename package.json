@@ -16,10 +16,10 @@
     "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",
     "dev:load-envs": "dotenv -e .env.development",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "npm run test:load-envs jest",
+    "test:watch": "npm run test:load-envs jest --watch",
     "test:cov": "npm run test:load-envs -- jest -- --coverage --runInBand --config ./jest-e2e.json",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:debug": "npm run test:load-envs node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:load-envs": "dotenv -e .env.test",
     "test:migration:run": "npm run test:load-envs prisma migrate deploy",
     "test:e2e": "npm run test:migration:run && npm run test:load-envs -- jest --detectOpenHandles -- --runInBand --config ./jest-e2e.json"
