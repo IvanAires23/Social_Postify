@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 
 @Controller('medias')
 export class MediasController {
-  constructor(private readonly mediasService: MediasService) { }
+  constructor(private readonly mediasService: MediasService) {}
 
   @Post()
   async create(@Body() createMediaDto: CreateMediaDto) {
@@ -14,12 +22,12 @@ export class MediasController {
 
   @Get()
   async findAll() {
-    return await this.mediasService.findAll()
+    return await this.mediasService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: number) {
-    return this.mediasService.findOne(+id)
+    return this.mediasService.findOne(+id);
   }
 
   @Put(':id')

@@ -8,8 +8,14 @@ import { MediasModule } from './medias/medias.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [HealthModule, MediasModule, PostsModule, PublicationsModule, PrismaModule],
+  imports: [
+    HealthModule,
+    MediasModule,
+    PostsModule,
+    PublicationsModule,
+    PrismaModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

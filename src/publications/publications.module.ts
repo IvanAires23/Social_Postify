@@ -10,4 +10,4 @@ import { MediasModule } from '../medias/medias.module';
   controllers: [PublicationsController],
   providers: [PublicationsService, PublicationsRepository],
 })
-export class PublicationsModule { }
+export class PublicationsModule {}
